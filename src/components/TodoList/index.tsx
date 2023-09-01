@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import TodoItem from "./TodoItem";
 import _ from "lodash";
-
 interface ITodoItem {
   text: string;
   completed: boolean;
@@ -64,7 +63,7 @@ export const TodoList = (): JSX.Element => {
         </button>
         {!_.isEmpty(todos) && (
           <ul className="bg-white h-auto text-black shadow-black shadow-sm rounded-lg p-5 select-none">
-            {todos.map((todo, index) => (
+            {_.map(todos, (todo, index) => (
               <TodoItem
                 key={index}
                 completed={todo.completed}
