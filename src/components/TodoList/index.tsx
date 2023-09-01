@@ -1,6 +1,7 @@
 import { CheckedSVG, RemoveSVG } from "@/utils/SVG";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import _ from "lodash";
+import TodoItem from "./TodoItem";
 
 interface ITodoItem {
   text: string;
@@ -11,30 +12,36 @@ export const TodoList = (): JSX.Element => {
   const [todos, setTodos] = useState<ITodoItem[]>([]);
   const [todoText, setTodoText] = useState<string>("");
 
-  const addTodo = () => {
+  const addTodo = useCallback(() => {
     if (todoText.trim() !== "") {
       setTodos([...todos, { text: todoText, completed: false }]);
       setTodoText("");
     }
-  };
+  }, [todoText, todos]);
 
-  const removeTodo = (index: number) => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
-  };
+  const removeTodo = useCallback(
+    (index: number) => {
+      const newTodos = [...todos];
+      newTodos.splice(index, 1);
+      setTodos(newTodos);
+    },
+    [todos]
+  );
 
-  const toggleComplete = (index: number) => {
-    const newTodos = [...todos];
-    newTodos[index].completed = !newTodos[index].completed;
-    setTodos(newTodos);
-  };
+  const toggleComplete = useCallback(
+    (index: number) => {
+      const newTodos = [...todos];
+      newTodos[index].completed = !newTodos[index].completed;
+      setTodos(newTodos);
+    },
+    [todos]
+  );
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       addTodo();
     }
-  };
+  }, [addTodo]);
 
   return (
     <div className="flex flex-col">
@@ -58,42 +65,13 @@ export const TodoList = (): JSX.Element => {
         {!_.isEmpty(todos) && (
           <ul className="bg-white h-auto text-black shadow-black shadow-sm rounded-lg p-5 select-none">
             {todos.map((todo, index) => (
-              <li key={index}>
-                <div className="grid grid-cols-12">
-                  <div className="col-span-1">
-                    <button
-                      onClick={() => toggleComplete(index)}
-                      className="w-5 h-5"
-                    >
-                      <CheckedSVG checked={todo.completed} />
-                    </button>
-                  </div>
-                  <div
-                    className="col-span-10"
-                    onClick={() => toggleComplete(index)}
-                  >
-                    <span
-                      style={{
-                        textDecoration: todo.completed
-                          ? "line-through"
-                          : "none",
-                        color: todo.completed ? "gray" : "inherit",
-                        width: "100%",
-                      }}
-                    >
-                      {todo.text}
-                    </span>
-                  </div>
-                  <div className="col-span-1">
-                    <button
-                      className="w-5 h-5"
-                      onClick={() => removeTodo(index)}
-                    >
-                      <RemoveSVG />
-                    </button>
-                  </div>
-                </div>
-              </li>
+              <TodoItem
+                key={index}
+                completed={todo.completed}
+                text={todo.text}
+                onRemove={() => removeTodo(index)}
+                onToggle={() => toggleComplete(index)}
+              />
             ))}
           </ul>
         )}
