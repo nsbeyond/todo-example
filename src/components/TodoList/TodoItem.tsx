@@ -17,12 +17,12 @@ const TodoItem: React.FC<TodoItemProps> = ({
   return (
     <li>
       <div className="grid grid-cols-12">
-        <div className="col-span-1">
+        <div className="col-span-1 max-lg:col-span-2">
           <button onClick={onToggle} className="w-5 h-5">
             <CheckedSVG checked={completed} />
           </button>
         </div>
-        <div className="col-span-10" onClick={onToggle}>
+        <div className="col-span-10 max-lg:col-span-8" onClick={onToggle}>
           <span
             style={{
               textDecoration: completed ? "line-through" : "none",
@@ -33,7 +33,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             {text}
           </span>
         </div>
-        <div className="col-span-1">
+        <div className="col-span-1 max-lg:col-span-2">
           <button className="w-5 h-5" onClick={onRemove}>
             <RemoveSVG />
           </button>
