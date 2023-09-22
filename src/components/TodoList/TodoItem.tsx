@@ -8,12 +8,12 @@ interface TodoItemProps {
   onRemove: () => void;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({
+export default function TodoItem({
   text,
   completed,
   onToggle,
   onRemove,
-}) => {
+}: TodoItemProps) {
   return (
     <li>
       <div className="grid grid-cols-12">
@@ -41,6 +41,4 @@ const TodoItem: React.FC<TodoItemProps> = ({
       </div>
     </li>
   );
-};
-
-export default TodoItem;
+}

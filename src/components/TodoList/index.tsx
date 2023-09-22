@@ -6,7 +6,7 @@ interface ITodoItem {
   completed: boolean;
 }
 
-export const TodoList = (): JSX.Element => {
+export default function TodoList(): JSX.Element {
   const [todos, setTodos] = useState<ITodoItem[]>([]);
   const [todoText, setTodoText] = useState<string>("");
 
@@ -77,4 +77,4 @@ export const TodoList = (): JSX.Element => {
       </div>
     </div>
   );
-};
+}
